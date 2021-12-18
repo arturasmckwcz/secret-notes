@@ -1,73 +1,53 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
-</p>
+# **Backend**:
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## **In concrete terms, this means the following**:
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+### We ask you to build a CRUD API that allows a user to interact with an entity ‘secretNote’.
 
-## Description
+- As a user, I should be able to post that entity to an Endpoint of the API and it encrypts the value of the field ‘note’, and as well stores it in a database in an encrypted format.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- As a user I should then be able to retrieve my note in a decrypted format.
 
-## Installation
+- There should also be a way for a user to specify that he wants to retrieve his note in an encrypted format.
 
-```bash
-$ npm install
-```
+Note: Assume that your application is only going to be used by a single user who controls the private key of the API. So only care about the entity ‘secretNote’ - User management and authentication is not part of the challenge.
 
-## Running the app
+Spend as much time as you personally need for it. If you are hired after the challenge, your time will be credited to you. Even if individual requirements should not be implemented in full, but you don’t feel comfortable investing more time, you should communicate that. That way we can probably still have a session about the achieved results.
 
-```bash
-# development
-$ npm run start
+## **The following basic conditions apply**:
 
-# watch mode
-$ npm run start:dev
+### Implement the assignment using the following technologies
 
-# production mode
-$ npm run start:prod
-```
+- TypeScript
 
-## Test
+- NestJS
 
-```bash
-# unit tests
-$ npm run test
+- Database of your choice
 
-# e2e tests
-$ npm run test:e2e
+- Work on your solution in a public Gitlab repository and use git as you would use it in the company.
 
-# test coverage
-$ npm run test:cov
-```
+- Your application should be packaged in a container and can be run using docker or other container interfaces.
 
-## Support
+- Also write an example (non-functional) kubernetes manifest, for deploying your application OR an example gitlab-ci.yaml for building your application.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+#
 
-## Stay in touch
+## **TODO**:
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### The stub of nest.js
 
-## License
+- [x] install
+- [x] try things
 
-Nest is [MIT licensed](LICENSE).
+### Prototype
+
+- [ ] dev secretNote model
+- [ ] wire db
+- [ ] dev CRUD functions
+- [ ] add encryption
+- [ ] add auth
+
+### Deployment
+
+- [ ] containers
+- [ ] kubernetes?
