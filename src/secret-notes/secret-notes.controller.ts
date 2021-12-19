@@ -16,8 +16,8 @@ export class SecretNotesController {
   constructor(private readonly secretNotesService: SecretNotesService) {}
 
   @Post()
-  create(@Body() createSecretNoteDto: CreateSecretNoteDto) {
-    return this.secretNotesService.create(createSecretNoteDto);
+  create(@Body() newNote: CreateSecretNoteDto) {
+    return { id: this.secretNotesService.create(newNote) };
   }
 
   @Get()
@@ -26,20 +26,20 @@ export class SecretNotesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: number) {
     return this.secretNotesService.findOne(+id);
   }
 
   @Patch(':id')
   update(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() updateSecretNoteDto: UpdateSecretNoteDto,
   ) {
     return this.secretNotesService.update(+id, updateSecretNoteDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: number) {
     return this.secretNotesService.remove(+id);
   }
 }
