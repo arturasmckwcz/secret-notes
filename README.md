@@ -41,9 +41,9 @@ Spend as much time as you personally need for it. If you are hired after the cha
 
 ### Prototype
 
-- [ ] dev secretNote model
+- [x] dev secretNote model
+- [x] dev CRUD functions
 - [ ] wire db
-- [ ] dev CRUD functions
 - [ ] add encryption
 - [ ] add auth
 
