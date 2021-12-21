@@ -1,41 +1,89 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateSecretNoteDto } from './dto/create-secret-note.dto';
-import { UpdateSecretNoteDto } from './dto/update-secret-note.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+
+import { encrypt, decrypt } from 'src/crypto';
+
+import { UsersService } from 'src/users/users.service';
+import { ISecretNote } from './secret-notes.model';
 
 @Injectable()
 export class SecretNotesService {
-  private notes: CreateSecretNoteDto[] = [];
+  constructor(
+    @InjectModel('SecretNote')
+    private readonly secretNoteModel: Model<ISecretNote>,
+    private readonly userService: UsersService,
+  ) {}
 
-  create(note: CreateSecretNoteDto) {
-    note.id = +new Date();
-    this.notes.push(note);
-    return note.id;
+  async create({ owner, note }: ISecretNote) {
+    try {
+      const newNote = new this.secretNoteModel(
+        await this.encryptNote({ id: undefined, owner, note }),
+      );
+      return (await newNote.save()).id as string;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   }
 
-  findAll() {
-    return this.notes.map((note) => ({ ...note }));
+  async findAll(encrypted: boolean = false) {
+    try {
+      const notes = (await this.secretNoteModel.find().exec()) as ISecretNote[];
+      return encrypted
+        ? notes.map(this.getNormalizedNote)
+        : await Promise.all(
+            notes.map(
+              async (note) =>
+                await this.decryptNote(this.getNormalizedNote(note)),
+            ),
+          );
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   }
 
-  findOne(id: number) {
-    return this.getNoteByID(id)[1];
+  async findOne(id: string, encrypted: boolean = false) {
+    try {
+      const note = (await this.secretNoteModel
+        .findById(id)
+        .exec()) as ISecretNote;
+      if (note)
+        return encrypted
+          ? this.getNormalizedNote(note)
+          : await this.decryptNote(this.getNormalizedNote(note));
+      else throw new NotFoundException('The note do not exist.');
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   }
 
-  update(id: number, update: UpdateSecretNoteDto) {
-    const [idx, note] = this.getNoteByID(id);
-    const updatedNote = { ...note, ...update };
-    this.notes[idx] = updatedNote;
-    return updatedNote.id;
+  update(id: string, update: ISecretNote) {
+    return null;
   }
 
-  remove(id: number) {
-    const [idx, _] = this.getNoteByID(id);
-    this.notes.splice(idx, 1);
-    return 1;
+  remove(id: string) {
+    return 0;
   }
 
-  private getNoteByID(id: number): [number, CreateSecretNoteDto] {
-    const idx = this.notes.findIndex((note) => note.id === id);
-    if (idx === -1) throw new NotFoundException('Note does not exist!');
-    return [idx, this.notes[idx]];
+  private async getKey(userId: string): Promise<string> {
+    const { key } = await this.userService.findOne(userId);
+    return key;
+  }
+
+  private getNormalizedNote({ id, owner, note }: ISecretNote): ISecretNote {
+    return { id, owner, note };
+  }
+
+  private async encryptNote(note: ISecretNote): Promise<ISecretNote> {
+    return { ...note, note: encrypt(note.note, await this.getKey(note.owner)) };
+  }
+  private async decryptNote(encryptedNote: ISecretNote): Promise<ISecretNote> {
+    return {
+      ...encryptedNote,
+      note: decrypt(encryptedNote.note, await this.getKey(encryptedNote.owner)),
+    };
   }
 }

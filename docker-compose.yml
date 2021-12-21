@@ -1,12 +1,15 @@
 version: '3.1'
 services:
   mongo:
-    image: mongo
+    image: mongo:4.2
     volumes:
       - ./db/data:/etc/mongo
+    ports:
+      - 27017:27017
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
+    # command: mongod --bind_ip_all
   mongo-express:
     image: mongo-express
     restart: always
