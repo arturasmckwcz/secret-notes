@@ -15,7 +15,10 @@ export class UsersService {
 
   async create({ name }: IUser) {
     try {
-      const newUser = new this.userModel({ name, key: generateUserKey() });
+      const newUser = new this.userModel({
+        name,
+        key: generateUserKey(),
+      });
       return (await newUser.save()).id as string;
     } catch (error) {
       console.error(error);

@@ -43,11 +43,12 @@ Spend as much time as you personally need for it. If you are hired after the cha
 
 - [x] dev secretNote model
 - [x] dev CRUD functions
-- [ ] wire db
-- [ ] add encryption
-- [ ] add auth
+- [x] wire db
+- [x] add encryption
+- [DISMISS] add auth
 
 ### Deployment
 
-- [ ] containers
+- [x] mongo containers
+- [ ] api to container
 - [ ] kubernetes?

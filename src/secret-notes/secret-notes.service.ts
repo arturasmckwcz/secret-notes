@@ -78,12 +78,18 @@ export class SecretNotesService {
   }
 
   private async encryptNote(note: ISecretNote): Promise<ISecretNote> {
-    return { ...note, note: encrypt(note.note, await this.getKey(note.owner)) };
+    return {
+      ...note,
+      note: await encrypt(note.note, await this.getKey(note.owner)),
+    };
   }
   private async decryptNote(encryptedNote: ISecretNote): Promise<ISecretNote> {
     return {
       ...encryptedNote,
-      note: decrypt(encryptedNote.note, await this.getKey(encryptedNote.owner)),
+      note: await decrypt(
+        encryptedNote.note,
+        await this.getKey(encryptedNote.owner),
+      ),
     };
   }
 }
