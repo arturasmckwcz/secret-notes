@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
@@ -33,7 +33,8 @@ export class UsersService {
   async findOne(id: string) {
     try {
       const user = await this.userModel.findById(id);
-      return this.getNormalizedUser(user);
+      if (user) return this.getNormalizedUser(user);
+      else throw new NotFoundException('The note do not exist.');
     } catch (error) {
       console.error(error);
       throw error;

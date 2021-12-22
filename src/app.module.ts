@@ -7,13 +7,15 @@ import { AppService } from './app.service';
 import { SecretNotesModule } from './secret-notes/secret-notes.module';
 import { UsersModule } from './users/users.module';
 
+import { getMongoURI } from '../db';
+
+console.log('app.module.ts:', getMongoURI());
+
 @Module({
   imports: [
     SecretNotesModule,
     UsersModule,
-    MongooseModule.forRoot(
-      'mongodb://root:example@localhost:27017/tech-assignment?authSource=admin',
-    ),
+    MongooseModule.forRoot(getMongoURI()),
   ],
   controllers: [AppController],
   providers: [AppService],
